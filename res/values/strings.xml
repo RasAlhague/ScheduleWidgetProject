@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ScheduleWidget</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="textViewLeftText">Left</string>
+    <string name="textViewRightText">Right</string>
+    <string name="textViewMiddleText">Middle</string>
+    <string name="S">S</string>
+    <string name="U">U</string>
+
+</resources>

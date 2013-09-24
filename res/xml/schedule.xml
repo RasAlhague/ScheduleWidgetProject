@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<schedule>
+    <day date="24.09.2013">
+        <lesson
+            number="1"
+            title="ІТС [Лк]"
+            classroom="409"
+            teacher="Соколов В.Ю."/>
+        <lesson
+            number="2"
+            title="ІТС [Пз]"
+            classroom="409"
+            teacher="Соколов В.Ю."/>
+        <lesson
+            number="3"
+            title="ОІБД [Пз]"
+            classroom="409"
+            teacher="Наконечний В.С."/>
+    </day>
+</schedule>
