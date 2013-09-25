@@ -1,15 +1,18 @@
 package com.example.schedulewidget;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -23,6 +26,13 @@ public class ScheduleDisplayManager
     private final int LESSON_TITLE_INDEX = 1;
     private final int LESSON_CLASSROOM_INDEX = 2;
     private final int LESSON_TEACHER_INDEX = 3;
+
+    private final boolean SHOW_LESSON_NUMBER = false;
+    private final boolean SHOW_LESSON_TITLE = true;
+    private final boolean SHOW_TEACHER = true;
+    private final boolean SHOW_CLASSROOM = true;
+
+    private final String NEXT_LINE_CHAR = "\n";
 
     public ScheduleDisplayManager()
     {
@@ -45,15 +55,32 @@ public class ScheduleDisplayManager
             String lesson = lessons.get(LESSON_TITLE_INDEX).toString();
             String classroom = lessons.get(LESSON_CLASSROOM_INDEX).toString();
             String teacher = lessons.get(LESSON_TEACHER_INDEX).toString();
-            
-            complexStr = complexStr + lessonN + " " + lesson + "\n" + classroom + "\n" + teacher + "\n" + "\n";
+
+            if (SHOW_LESSON_NUMBER)
+            {
+                complexStr += lessonN + NEXT_LINE_CHAR;
+            }
+            if (SHOW_LESSON_TITLE)
+            {
+                complexStr += lesson + NEXT_LINE_CHAR;
+            }
+            if (SHOW_CLASSROOM)
+            {
+                complexStr += classroom + NEXT_LINE_CHAR;
+            }
+            if (SHOW_TEACHER)
+            {
+                complexStr += teacher + NEXT_LINE_CHAR;
+            }
+            complexStr += NEXT_LINE_CHAR;
         }
-        
+
         widgetViews.setTextViewText(R.id.textViewLeft, complexStr);
-        
-        //update widget layout
+
+        // update widget layout
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this.context);
-        appWidgetManager.updateAppWidget(new ComponentName(this.context.getPackageName(), ScheduleWidget.class.getName()), this.widgetViews);
+        appWidgetManager
+                .updateAppWidget(new ComponentName(this.context.getPackageName(), ScheduleWidget.class.getName()), this.widgetViews);
     }
 
     private ArrayList<ArrayList> GetDailyScheduleFromXML()
@@ -63,7 +90,9 @@ public class ScheduleDisplayManager
         try
         {
             // load file with schedule; warning: read xml after it will be written
-            this.xmlPullParser = this.context.getResources().getXml(R.xml.schedule);
+            xmlPullParser = XmlPullParserFactory.newInstance().newPullParser();
+            String xmlFile = GetFileAsString(GlobalVariables.SCHEDULE_FILE_NAME);
+            this.xmlPullParser.setInput(new StringReader(xmlFile));
 
             String currentDate = GetCurrentDate();
 
@@ -74,18 +103,14 @@ public class ScheduleDisplayManager
                     String attr = xmlPullParser.getAttributeValue(0);
                     if (attr.equals(currentDate))
                     {
-                        //skip to lesson tag
+                        // skip to lesson tag
                         while (!xmlPullParser.getName().equals("lesson"))
                         {
-//                            Log.w("", xmlPullParser.getName() + "   " + xmlPullParser.getEventType() + "   " + xmlPullParser.getDepth());
                             xmlPullParser.nextTag();
                         }
-                        
-                        //
-                        while ( (! xmlPullParser.getName().equals("day")) )
-                        {
-//                            Log.w("", xmlPullParser.getName() + "   " + xmlPullParser.getEventType() + "   " + xmlPullParser.getDepth());
 
+                        while ((!xmlPullParser.getName().equals("day")))
+                        {
                             if (xmlPullParser.getEventType() == XmlPullParser.START_TAG)
                             {
                                 ArrayList<String> attributeArray = new ArrayList<String>();
@@ -95,11 +120,10 @@ public class ScheduleDisplayManager
                                 }
                                 dailySchedule.add(attributeArray);
                             }
-                            
+
                             xmlPullParser.nextTag();
-//                            Log.w("", xmlPullParser.getName() + "   " + xmlPullParser.getEventType() + "   " + xmlPullParser.getDepth());
                         }
-                        
+
                         return dailySchedule;
                     }
                 }
@@ -113,6 +137,22 @@ public class ScheduleDisplayManager
         }
 
         return dailySchedule;
+    }
+
+    private String GetFileAsString(String fileName) throws IOException
+    {
+        FileInputStream fis;
+        fis = this.context.openFileInput(fileName);
+        StringBuffer fileContent = new StringBuffer("");
+
+        byte[] buffer = new byte[1024];
+
+        while (fis.read(buffer) != -1)
+        {
+            fileContent.append(new String(buffer));
+        }
+
+        return fileContent.toString();
     }
 
     public String GetCurrentDate()

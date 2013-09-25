@@ -1,7 +1,7 @@
 package com.example.schedulewidget;
 
 
-public interface AsyncTaskCompleteListener<T>
+interface AsyncTaskCompleteListener
 {
-    public void OnAsyncTaskComplete(T result);
+    public void OnAsyncTaskComplete(String result);
 }

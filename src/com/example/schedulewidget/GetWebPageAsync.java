@@ -12,18 +12,14 @@ import android.util.Log;
 
 public class GetWebPageAsync extends AsyncTask<Void, Void, String>
 {
-    private AsyncTaskCompleteListener<String> callback;
+    private AsyncTaskCompleteListener callback;
     private String ASUPORTAL_URL_WITH_PARAMETERS;
 
-    GetWebPageAsync(/* AsyncTaskCompleteListener<String> callback */)
+    GetWebPageAsync(AsyncTaskCompleteListener callback)
     {
         ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters("11@grebenyuk.ov", "0ev8a-7-");
-        /*
-         * if (callback != null)
-         * {
-         * this.callback = callback;
-         * }
-         */
+
+        this.callback = callback;
     }
 
     private String GetURLWithParameters(String user, String pass)
@@ -52,10 +48,7 @@ public class GetWebPageAsync extends AsyncTask<Void, Void, String>
         try
         {
             Response response = Jsoup.connect(ASUPORTAL_URL_WITH_PARAMETERS).timeout(10000).execute();
-
             html = response.parse().html();
-
-            Log.i("HTML", html.toString());
 
             return html;
         }

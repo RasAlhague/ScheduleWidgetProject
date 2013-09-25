@@ -64,11 +64,9 @@ public class ScheduleWidget extends AppWidgetProvider
 
     private void OnUpdateButtonClick()
     {
-        //TEST
-        GetWebPageAsync getWebPageAsync = new GetWebPageAsync();
-        getWebPageAsync.execute();
+        HTMLReceiver htmlReceiver = new HTMLReceiver();
+        htmlReceiver.getWebPageAsync.execute();
 
-        //TEST: WORKS
 //        ScheduleDisplayManager scheduleDisplayManager = new ScheduleDisplayManager();
 //        scheduleDisplayManager.DisplaySchedule();
     }
