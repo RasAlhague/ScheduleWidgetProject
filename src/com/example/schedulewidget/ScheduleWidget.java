@@ -1,11 +1,17 @@
 package com.example.schedulewidget;
 
+import java.io.File;
+
 import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 /**
  * Implementation of App Widget functionality.
@@ -15,18 +21,35 @@ public class ScheduleWidget extends AppWidgetProvider
     private static final String ACTION_WIDGET_UPDATEBTN_CLICK = "WidgetUpdateButtonClick";
     private static final String ACTION_WIDGET_SETTINGBTN_CLICK = "WidgetSettingButtonClick";
 
-    private static Context context;
+    public static Context context;
 
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    public static Context getAppContext()
     {
-        ScheduleWidget.context = context;
+        return ScheduleWidget.context;
+    }
 
-        // There may be multiple widgets active, so update all of them
-        int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++)
+    public static void ShowToastMsg(int resID)
+    {
+        Toast.makeText(ScheduleWidget.context, resID, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void ShowToastMsg(String msg)
+    {
+        Toast.makeText(ScheduleWidget.context, msg, Toast.LENGTH_SHORT).show();
+    }
+    
+    
+
+    public boolean FileExistance(String fname)
+    {
+        File file = ScheduleWidget.context.getFileStreamPath(fname);
+        if (file.exists())
         {
-            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -43,14 +66,35 @@ public class ScheduleWidget extends AppWidgetProvider
 
         if (ACTION_WIDGET_SETTINGBTN_CLICK.equals(action))
         {
-            // TODO
+            Intent settingActivityIntent = new Intent(context, SettingActivity.class);
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, settingActivityIntent, 0);
+            try
+            {
+                configPendingIntent.send();
+            }
+            catch (CanceledException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
+    {
+        ScheduleWidget.context = context;
+
+        // There may be multiple widgets active, so update all of them
+        int N = appWidgetIds.length;
+        for (int i = 0; i < N; i++)
+        {
+            updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
         }
     }
 
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId)
     {
-        // setOnUpdateButtonClickEvent(context);
-
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.schedule_widget);
 
@@ -62,13 +106,55 @@ public class ScheduleWidget extends AppWidgetProvider
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
+    private boolean IsMobileConnected()
+    {
+        ConnectivityManager connManager = (ConnectivityManager) ScheduleWidget.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mMobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        return mMobile.isConnected();
+    }
+
+    private boolean IsWifiConnected()
+    {
+        ConnectivityManager connManager = (ConnectivityManager) ScheduleWidget.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        return mWifi.isConnected();
+    }
+
     private void OnUpdateButtonClick()
     {
-        HTMLReceiver htmlReceiver = new HTMLReceiver();
-        htmlReceiver.getWebPageAsync.execute();
+        Utility.TougleProgressBar(true);
 
-//        ScheduleDisplayManager scheduleDisplayManager = new ScheduleDisplayManager();
-//        scheduleDisplayManager.DisplaySchedule();
+        ScheduleDisplayManager scheduleDisplayManager = new ScheduleDisplayManager();
+
+        // Toast
+        ScheduleWidget.ShowToastMsg(R.string.xml_file_available_checking);
+
+        if (FileExistance(GlobalVariables.SCHEDULE_FILE_NAME) && scheduleDisplayManager.CheckXMLFileActuality())
+        {
+            scheduleDisplayManager.DisplaySchedule();
+        }
+        else
+        {
+            // Toast
+            ScheduleWidget.ShowToastMsg(R.string.xml_not_found_localy);
+            ScheduleWidget.ShowToastMsg(R.string.trying_download_data);
+
+            //TODO
+            if ((IsWifiConnected() || IsMobileConnected()))
+            {
+                Receiver htmlReceiver = new Receiver();
+                htmlReceiver.getWebPageAsync.execute();
+            }
+            else
+            {
+                // Toast
+                ScheduleWidget.ShowToastMsg(R.string.check_connection);
+
+                // TODO maybe load non actual schedule
+            }
+        }
     }
 
     protected PendingIntent getPendingSelfIntent(Context context, String action)
@@ -76,10 +162,5 @@ public class ScheduleWidget extends AppWidgetProvider
         Intent intent = new Intent(context, getClass());
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 0, intent, 0);
-    }
-
-    public static Context getAppContext()
-    {
-        return ScheduleWidget.context;
     }
 }

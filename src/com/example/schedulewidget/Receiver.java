@@ -1,12 +1,12 @@
 package com.example.schedulewidget;
 
-public class HTMLReceiver implements AsyncTaskCompleteListener
+public class Receiver implements AsyncTaskCompleteListener
 {
     private HTMLPageParser htmlPageParser;
     private ScheduleDisplayManager scheduleDisplayManager;
     public GetWebPageAsync getWebPageAsync;
 
-    public HTMLReceiver()
+    public Receiver()
     {
         this.htmlPageParser = new HTMLPageParser();
         this.scheduleDisplayManager = new ScheduleDisplayManager();
@@ -27,5 +27,7 @@ public class HTMLReceiver implements AsyncTaskCompleteListener
         }
         
         this.scheduleDisplayManager.DisplaySchedule();
+        
+        Utility.TougleProgressBar(false);
     }
 }

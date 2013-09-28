@@ -7,17 +7,27 @@ import java.net.URLEncoder;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
-public class GetWebPageAsync extends AsyncTask<Void, Void, String>
+public class GetWebPageAsync extends AsyncTask<Void, Integer, String>
 {
     private AsyncTaskCompleteListener callback;
     private String ASUPORTAL_URL_WITH_PARAMETERS;
+    ProgressDialog progressDialog;
 
     GetWebPageAsync(AsyncTaskCompleteListener callback)
     {
-        ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters("11@grebenyuk.ov", "0ev8a-7-");
+        SharedPreferences sharedPreferences = ScheduleWidget
+                .getAppContext()
+                .getSharedPreferences(GlobalVariables.SHARED_PREFERENCE_NAME, 0);
+
+        String userLogin = sharedPreferences.getString(GlobalVariables.PREFERENCE_LOGIN_KEY, GlobalVariables.PREFERENCE_LOGIN_DEFVAL);
+        String userPass = sharedPreferences.getString(GlobalVariables.PREFERENCE_PASS_KEY, GlobalVariables.PREFERENCE_PASS_DEFVAL);
+
+        // ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters("11@grebenyuk.ov", "0ev8a-7-");
+        ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters(userLogin, userPass);
 
         this.callback = callback;
     }

@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.Xml;
 
 public class HTMLPageParser
@@ -24,6 +23,7 @@ public class HTMLPageParser
     private final String ATTRIBUTE_NUMBER = "number";
     private final String ATTRIBUTE_CLASSROOM = "classroom";
     private final String ATTRIBUTE_TEACHER = "teacher";
+    private final String ATTRIBUTE_CREATION_DATE = "creation_date";
 
     private final int LESSON_TITLE_REGEXGROUP_INDEX = 1;
     private final int LESSON_TYPE_REGEXGROUP_INDEX = 2;
@@ -35,7 +35,9 @@ public class HTMLPageParser
     private void WriteStringToXML(String targetString) throws Exception
     {
         ScheduleWidget.getAppContext();
-        FileOutputStream fileOutputStream = ScheduleWidget.getAppContext().openFileOutput(GlobalVariables.SCHEDULE_FILE_NAME, Context.MODE_PRIVATE);
+        FileOutputStream fileOutputStream = ScheduleWidget.getAppContext().openFileOutput(GlobalVariables.SCHEDULE_FILE_NAME,
+                Context.MODE_PRIVATE);
+
         fileOutputStream.write(targetString.getBytes());
     }
 
@@ -48,31 +50,29 @@ public class HTMLPageParser
 
         // start DOCUMENT
         xmlSerializer.startDocument("UTF-8", true);
-
         // open tag: <schedule>
         xmlSerializer.startTag(EMPTY_NAMESPASE, TAG_SCHEDULE);
+        // add creation date
+        xmlSerializer.attribute(EMPTY_NAMESPASE, ATTRIBUTE_CREATION_DATE, Utility.GetCurrentDate(GlobalVariables.DATE_FORMAT));
 
         Pattern patternForBlock = null;
-
         patternForBlock = Pattern.compile(BLOCK_FINDER_PATTERN, Pattern.DOTALL);
-
         Matcher matcherForBlock = patternForBlock.matcher(inputPage);
 
         String block = "";
         String date = "";
         Pattern patternForLessonData = Pattern.compile(LESSON_DATA_FINDER_PATTERN, Pattern.DOTALL);
         Matcher matcherForLessonData;
-        while (matcherForBlock.find())
+        while ( matcherForBlock.find() )
         {
             block = matcherForBlock.group(BLOCK_REGEXGROUP_INDEX);
             date = matcherForBlock.group(DATE_REGEXGROUP_INDEX);
 
             matcherForLessonData = patternForLessonData.matcher(block);
-  
-            
-            //get count of matches
+
+            // get count of matches
             int matchesCount = 0;
-            while (matcherForLessonData.find())
+            while ( matcherForLessonData.find() )
             {
                 matchesCount++;
             }
@@ -82,24 +82,21 @@ public class HTMLPageParser
             String lessonType = "";
             String auditory = "";
             String teacher = "";
-            //while (matcherForLessonData.find())
-            for (int lessonsCounter = 1; matcherForLessonData.find(); lessonsCounter++)
+            for ( int lessonsCounter = 1; matcherForLessonData.find(); lessonsCounter++ )
             {
                 lessonTitle = matcherForLessonData.group(LESSON_TITLE_REGEXGROUP_INDEX);
-                Log.i("", lessonTitle);
 
                 lessonType = " [" + matcherForLessonData.group(LESSON_TYPE_REGEXGROUP_INDEX) + "]";
-                Log.i("", lessonType);
 
                 auditory = matcherForLessonData.group(AUDITORY_REGEXGROUP_INDEX);
-                Log.i("", auditory);
 
                 teacher = matcherForLessonData.group(TEACHER_REGEXGROUP_INDEX);
-                Log.i("", teacher);
-                Log.i("------------", "------------");
 
-                
-                if (lessonsCounter == 1)
+                // Log.v("", lessonTitle + GlobalVariables.NEXT_LINE_CHAR + lessonType + GlobalVariables.NEXT_LINE_CHAR + auditory
+                // + GlobalVariables.NEXT_LINE_CHAR + teacher);
+                // Log.v("------------", "------------");
+
+                if ( lessonsCounter == 1 )
                 {
                     // open tag: <day>
                     xmlSerializer.startTag(EMPTY_NAMESPASE, TAG_DAY);
@@ -112,11 +109,11 @@ public class HTMLPageParser
                 xmlSerializer.attribute(EMPTY_NAMESPASE, ATTRIBUTE_TITLE, lessonTitle + lessonType);
                 xmlSerializer.attribute(EMPTY_NAMESPASE, ATTRIBUTE_CLASSROOM, auditory);
                 xmlSerializer.attribute(EMPTY_NAMESPASE, ATTRIBUTE_TEACHER, teacher);
-                //close tag <lesson>
+                // close tag <lesson>
                 xmlSerializer.endTag(EMPTY_NAMESPASE, TAG_LESSON);
 
-                //close tag <day> if end               
-                if (matchesCount == lessonsCounter)
+                // close tag <day> if end
+                if ( matchesCount == lessonsCounter )
                 {
                     xmlSerializer.endTag(EMPTY_NAMESPASE, TAG_DAY);
                 }

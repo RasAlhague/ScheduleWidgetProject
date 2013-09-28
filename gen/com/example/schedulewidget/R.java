@@ -12,8 +12,16 @@ public final class R {
     }
     public static final class dimen {
         /** 
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
+    
+         */
+        public static final int activity_horizontal_margin=0x7f050001;
+        public static final int activity_vertical_margin=0x7f050002;
+        /** 
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+
     
 
 Refer to App Widget Documentation for margin information
@@ -27,23 +35,61 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int button_Setting=0x7f080003;
-        public static final int button_Update=0x7f080002;
-        public static final int relative_layout=0x7f080000;
-        public static final int textViewLeft=0x7f080001;
+        public static final int action_settings=0x7f09000c;
+        public static final int button_Setting=0x7f090009;
+        public static final int button_Update=0x7f090008;
+        public static final int editTextLogin=0x7f090000;
+        public static final int editTextPass=0x7f090001;
+        public static final int editTextScheduleRelevanceTime=0x7f090004;
+        public static final int relative_layout=0x7f090007;
+        public static final int savePreferenceButton=0x7f090006;
+        public static final int separator1=0x7f090002;
+        public static final int textView1=0x7f090003;
+        public static final int textView2=0x7f090005;
+        public static final int textViewLeft=0x7f09000b;
+        public static final int widgetProgressBar=0x7f09000a;
     }
     public static final class layout {
-        public static final int schedule_widget=0x7f030000;
+        public static final int activity_setting=0x7f030000;
+        public static final int schedule_widget=0x7f030001;
+    }
+    public static final class menu {
+        public static final int setting=0x7f080000;
     }
     public static final class string {
-        public static final int S=0x7f060006;
-        public static final int U=0x7f060007;
-        public static final int add_widget=0x7f060002;
+        public static final int EditTextPreferenceLoginSummary=0x7f060015;
+        /**  Preference 
+         */
+        public static final int EditTextPreferenceLoginTitle=0x7f060014;
+        public static final int S=0x7f060002;
+        public static final int U=0x7f060003;
+        public static final int action_settings=0x7f06000b;
         public static final int app_name=0x7f060000;
-        public static final int appwidget_text=0x7f060001;
-        public static final int textViewLeftText=0x7f060003;
-        public static final int textViewMiddleText=0x7f060005;
-        public static final int textViewRightText=0x7f060004;
+        public static final int check_connection=0x7f060005;
+        public static final int check_wifi_connection=0x7f060004;
+        public static final int days=0x7f060010;
+        public static final int editTextScheduleRelevanceTime=0x7f060011;
+        public static final int getting_data_from_xml=0x7f060006;
+        public static final int hello_world=0x7f06000c;
+        public static final int login_example=0x7f06000e;
+        public static final int pass=0x7f06000d;
+        public static final int period_of_schedule_relevance=0x7f06000f;
+        /**      <string name="PREFERENCE_LOGIN_KEY">login</string> 
+     <string name="PREFERENCE_PASS_KEY">pass</string> 
+     <string name="PREFERENCE_RELEVANCE_TIME_KEY">relevance_time</string> 
+     <string name="PREFERENCE_LOGIN_DEFVAL"></string> 
+     <string name="PREFERENCE_PASS_DEFVAL"></string> 
+     <string name="PREFERENCE_RELEVANCE_TIME_DEFVAL">5</string> 
+  
+         */
+        public static final int save=0x7f060016;
+        public static final int textViewLeftText=0x7f060001;
+        public static final int title_activity_setting=0x7f06000a;
+        public static final int trying_download_data=0x7f060009;
+        public static final int xml_file_available_checking=0x7f060008;
+        public static final int xml_havnt_current_day=0x7f060013;
+        public static final int xml_not_found_localy=0x7f060007;
+        public static final int xml_parsing_displaying_error=0x7f060012;
     }
     public static final class style {
         /** 
@@ -74,7 +120,7 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
         public static final int AppTheme=0x7f070001;
     }
     public static final class xml {
-        public static final int schedule=0x7f040000;
+        public static final int preference=0x7f040000;
         public static final int schedule_widget_info=0x7f040001;
     }
 }
