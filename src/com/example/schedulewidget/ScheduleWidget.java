@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 /**
  * Implementation of App Widget functionality.
@@ -28,22 +27,10 @@ public class ScheduleWidget extends AppWidgetProvider
         return ScheduleWidget.context;
     }
 
-    public static void ShowToastMsg(int resID)
-    {
-        Toast.makeText(ScheduleWidget.context, resID, Toast.LENGTH_SHORT).show();
-    }
-
-    public static void ShowToastMsg(String msg)
-    {
-        Toast.makeText(ScheduleWidget.context, msg, Toast.LENGTH_SHORT).show();
-    }
-    
-    
-
     public boolean FileExistance(String fname)
     {
         File file = ScheduleWidget.context.getFileStreamPath(fname);
-        if (file.exists())
+        if ( file.exists() )
         {
             return true;
         }
@@ -59,12 +46,12 @@ public class ScheduleWidget extends AppWidgetProvider
         super.onReceive(context, intent);
 
         final String action = intent.getAction();
-        if (ACTION_WIDGET_UPDATEBTN_CLICK.equals(action))
+        if ( ACTION_WIDGET_UPDATEBTN_CLICK.equals(action) )
         {
             OnUpdateButtonClick();
         }
 
-        if (ACTION_WIDGET_SETTINGBTN_CLICK.equals(action))
+        if ( ACTION_WIDGET_SETTINGBTN_CLICK.equals(action) )
         {
             Intent settingActivityIntent = new Intent(context, SettingActivity.class);
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, settingActivityIntent, 0);
@@ -87,7 +74,7 @@ public class ScheduleWidget extends AppWidgetProvider
 
         // There may be multiple widgets active, so update all of them
         int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++)
+        for ( int i = 0; i < N; i++ )
         {
             updateAppWidget(context, appWidgetManager, appWidgetIds[i]);
         }
@@ -124,25 +111,55 @@ public class ScheduleWidget extends AppWidgetProvider
 
     private void OnUpdateButtonClick()
     {
+        // trololo
+        Integer a = 127;
+        Integer b = 127;
+        Integer c = 128;
+        Integer d = 128;
+        boolean bAB = a == b;
+        boolean bCD = c == d;
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(bAB); // true
+        System.out.println(bCD); // false
+        System.out.println(a == b); // true
+        System.out.println(c == d); // false
+
+        int x=0;
+        System.out.println(++x==++x);
+        int xx=0;
+        System.out.println(++xx==xx);
+        int xxx=0;
+        System.out.println(xxx==xxx++);
+        int xxxx=0;
+        System.out.println(xxxx++==xxxx++);
+        int xxxxx=0;
+        System.out.println(xxxxx++==++xxxxx);
+
+        // trololo end ---
+        
+        Utility.SetTextToTextView(R.id.textViewLeft, "");
         Utility.TougleProgressBar(true);
 
         ScheduleDisplayManager scheduleDisplayManager = new ScheduleDisplayManager();
 
         // Toast
-        ScheduleWidget.ShowToastMsg(R.string.xml_file_available_checking);
+        Utility.Toasts.ShowToastMsg(R.string.xml_file_available_checking);
 
-        if (FileExistance(GlobalVariables.SCHEDULE_FILE_NAME) && scheduleDisplayManager.CheckXMLFileActuality())
+        if ( FileExistance(GlobalVariables.SCHEDULE_FILE_NAME) && scheduleDisplayManager.CheckXMLFileActuality() )
         {
+            Utility.Toasts.ShowToastMsg(R.string.xml_available_and_actual_showing);
+            
             scheduleDisplayManager.DisplaySchedule();
         }
         else
         {
             // Toast
-            ScheduleWidget.ShowToastMsg(R.string.xml_not_found_localy);
-            ScheduleWidget.ShowToastMsg(R.string.trying_download_data);
+            Utility.Toasts.ShowToastMsg(R.string.xml_not_found_localy);
+            Utility.Toasts.ShowToastMsg(R.string.trying_download_data);
 
-            //TODO
-            if ((IsWifiConnected() || IsMobileConnected()))
+            // TODO
+            if ( (IsWifiConnected() || IsMobileConnected()) )
             {
                 Receiver htmlReceiver = new Receiver();
                 htmlReceiver.getWebPageAsync.execute();
@@ -150,7 +167,7 @@ public class ScheduleWidget extends AppWidgetProvider
             else
             {
                 // Toast
-                ScheduleWidget.ShowToastMsg(R.string.check_connection);
+                Utility.Toasts.ShowToastMsg(R.string.check_connection);
 
                 // TODO maybe load non actual schedule
             }

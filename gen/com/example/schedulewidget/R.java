@@ -35,19 +35,23 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000c;
-        public static final int button_Setting=0x7f090009;
-        public static final int button_Update=0x7f090008;
+        public static final int TextView01=0x7f090006;
+        public static final int TextView02=0x7f090008;
+        public static final int action_settings=0x7f090010;
+        public static final int button_Setting=0x7f09000d;
+        public static final int button_Update=0x7f09000c;
+        public static final int checkBox1=0x7f090009;
+        public static final int checkBoxToastMsgs=0x7f090007;
         public static final int editTextLogin=0x7f090000;
         public static final int editTextPass=0x7f090001;
         public static final int editTextScheduleRelevanceTime=0x7f090004;
-        public static final int relative_layout=0x7f090007;
-        public static final int savePreferenceButton=0x7f090006;
+        public static final int relative_layout=0x7f09000b;
+        public static final int savePreferenceButton=0x7f09000a;
         public static final int separator1=0x7f090002;
         public static final int textView1=0x7f090003;
         public static final int textView2=0x7f090005;
-        public static final int textViewLeft=0x7f09000b;
-        public static final int widgetProgressBar=0x7f09000a;
+        public static final int textViewLeft=0x7f09000f;
+        public static final int widgetProgressBar=0x7f09000e;
     }
     public static final class layout {
         public static final int activity_setting=0x7f030000;
@@ -57,10 +61,10 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
         public static final int setting=0x7f080000;
     }
     public static final class string {
-        public static final int EditTextPreferenceLoginSummary=0x7f060015;
+        public static final int EditTextPreferenceLoginSummary=0x7f060016;
         /**  Preference 
          */
-        public static final int EditTextPreferenceLoginTitle=0x7f060014;
+        public static final int EditTextPreferenceLoginTitle=0x7f060015;
         public static final int S=0x7f060002;
         public static final int U=0x7f060003;
         public static final int action_settings=0x7f06000b;
@@ -82,10 +86,12 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
      <string name="PREFERENCE_RELEVANCE_TIME_DEFVAL">5</string> 
   
          */
-        public static final int save=0x7f060016;
+        public static final int save=0x7f060017;
         public static final int textViewLeftText=0x7f060001;
         public static final int title_activity_setting=0x7f06000a;
+        public static final int toasts_messages=0x7f060018;
         public static final int trying_download_data=0x7f060009;
+        public static final int xml_available_and_actual_showing=0x7f060014;
         public static final int xml_file_available_checking=0x7f060008;
         public static final int xml_havnt_current_day=0x7f060013;
         public static final int xml_not_found_localy=0x7f060007;

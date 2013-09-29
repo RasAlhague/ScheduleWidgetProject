@@ -21,6 +21,7 @@
     <string name="editTextScheduleRelevanceTime">5</string>
     <string name="xml_parsing_displaying_error">XML-file displaying error. </string>
     <string name="xml_havnt_current_day">XML-file have not current day. </string>
+    <string name="xml_available_and_actual_showing">XML-file is available and actual. Showing shedule. </string>
     
 
     <!-- Preference -->
@@ -35,5 +36,7 @@
     <!--  -->
 
     <string name="save">Save</string>
+
+    <string name="toasts_messages">Toast messages</string>
 
 </resources>

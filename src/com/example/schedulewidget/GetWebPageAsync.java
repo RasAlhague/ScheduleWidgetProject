@@ -26,8 +26,8 @@ public class GetWebPageAsync extends AsyncTask<Void, Integer, String>
         String userLogin = sharedPreferences.getString(GlobalVariables.PREFERENCE_LOGIN_KEY, GlobalVariables.PREFERENCE_LOGIN_DEFVAL);
         String userPass = sharedPreferences.getString(GlobalVariables.PREFERENCE_PASS_KEY, GlobalVariables.PREFERENCE_PASS_DEFVAL);
 
-        // ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters("11@grebenyuk.ov", "0ev8a-7-");
-        ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters(userLogin, userPass);
+         ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters("11@grebenyuk.ov", "0ev8a-7-");
+//        ASUPORTAL_URL_WITH_PARAMETERS = GetURLWithParameters(userLogin, userPass);
 
         this.callback = callback;
     }

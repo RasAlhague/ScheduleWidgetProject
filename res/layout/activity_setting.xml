@@ -47,7 +47,8 @@
         android:layout_below="@+id/separator1"
         android:layout_toLeftOf="@+id/editTextScheduleRelevanceTime"
         android:text="@string/period_of_schedule_relevance"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -57,7 +58,8 @@
         android:layout_alignTop="@+id/editTextScheduleRelevanceTime"
         android:onClick="OnSaveButtonClick"
         android:text="@string/days"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/editTextScheduleRelevanceTime"
@@ -73,15 +75,45 @@
         android:textSize="21sp"
         android:width="50dp" />
 
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1"
+        android:visibility="invisible" />
+
+    <CheckBox
+        android:id="@+id/checkBoxToastMsgs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/TextView01"
+        android:text="@string/toasts_messages"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/checkBox1"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/savePreferenceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/checkBoxToastMsgs"
         android:onClick="OnSaveButtonClick"
         android:text="@string/save"
         android:textAlignment="center"
+        android:textSize="20sp"
         android:width="100dp" />
 
 </RelativeLayout>

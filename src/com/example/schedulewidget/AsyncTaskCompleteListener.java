@@ -1,7 +1,8 @@
 package com.example.schedulewidget;
 
 
-interface AsyncTaskCompleteListener
+public interface AsyncTaskCompleteListener
 {
-    public void OnAsyncTaskComplete(String result);
+    //all fields abstract as default
+    public abstract void OnAsyncTaskComplete(String result);
 }

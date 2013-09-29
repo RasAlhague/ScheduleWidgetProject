@@ -15,11 +15,9 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.RemoteViews;
 
 public class ScheduleDisplayManager
 {
-    private RemoteViews widgetViews;
     private Context context;
     private XmlPullParser xmlPullParser;
 
@@ -36,7 +34,6 @@ public class ScheduleDisplayManager
     public ScheduleDisplayManager()
     {
         context = ScheduleWidget.getAppContext();
-        widgetViews = new RemoteViews(this.context.getPackageName(), R.layout.schedule_widget);
     }
 
     public boolean CheckXMLFileActuality()
@@ -81,7 +78,7 @@ public class ScheduleDisplayManager
 
     public void DisplaySchedule()
     {
-        ArrayList<ArrayList> scheduleArray = GetDailyScheduleFromXML();
+        ArrayList<ArrayList<String>> scheduleArray = GetDailyScheduleFromXML();
         SetDataIntoLabels(scheduleArray);
     }
 
@@ -106,9 +103,9 @@ public class ScheduleDisplayManager
         }
     }
 
-    private ArrayList<ArrayList> GetDailyScheduleFromXML()
+    private ArrayList<ArrayList<String>> GetDailyScheduleFromXML()
     {
-        ArrayList<ArrayList> dailySchedule = new ArrayList<ArrayList>();
+        ArrayList<ArrayList<String>> dailySchedule = new ArrayList<ArrayList<String>>();
 
         try
         {
@@ -163,7 +160,7 @@ public class ScheduleDisplayManager
 
                 if ( (xmlPullParser.getEventType() == XmlPullParser.END_TAG) && (xmlPullParser.getName().equals("schedule")) )
                 {
-                    Utility.ShowToastMsg(R.string.xml_havnt_current_day);
+                    Utility.Toasts.ShowToastMsg(R.string.xml_havnt_current_day);
                     break;
                 }
 
@@ -172,7 +169,7 @@ public class ScheduleDisplayManager
         }
         catch (Throwable e)
         {
-            Utility.ShowToastMsg(ScheduleWidget.context.getString(R.string.xml_parsing_displaying_error) + e.toString());
+            Utility.Toasts.ShowToastMsg(ScheduleWidget.context.getString(R.string.xml_parsing_displaying_error) + e.toString());
         }
 
         return dailySchedule;
@@ -205,10 +202,10 @@ public class ScheduleDisplayManager
         return fileContent.toString();
     }
 
-    private void SetDataIntoLabels(ArrayList<ArrayList> array)
+    private void SetDataIntoLabels(ArrayList<ArrayList<String>> array)
     {
         String complexStr = "";
-        for ( ArrayList lessons : array )
+        for ( ArrayList<String> lessons : array )
         {
             String lessonN = lessons.get(LESSON_NUMBER_INDEX).toString();
             String lesson = lessons.get(LESSON_TITLE_INDEX).toString();
@@ -235,7 +232,7 @@ public class ScheduleDisplayManager
         }
 
         Utility.TougleProgressBar(false);
-        Utility.SetTextToViewLeft(complexStr);
+        Utility.SetTextToTextView(R.id.textViewLeft, complexStr);
     }
 
 }

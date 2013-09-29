@@ -11,6 +11,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -19,28 +21,33 @@ import android.widget.Toast;
 public class Utility
 {
 
-    public static void SetTextToViewLeft(String textToSet)
+    public static class Toasts
     {
-        RemoteViews views = new RemoteViews(ScheduleWidget.context.getPackageName(), R.layout.schedule_widget);
+        static SharedPreferences sharedPreferences = ScheduleWidget.context.getSharedPreferences(GlobalVariables.SHARED_PREFERENCE_NAME,
+                Context.MODE_PRIVATE);
 
-        views.setTextViewText(R.id.textViewLeft, textToSet);
+        public static void ShowToastMsg(int resID)
+        {
+            if ( sharedPreferences.getBoolean(GlobalVariables.PREFERENCE_SHOW_TOASTS_KEY, GlobalVariables.PREFERENCE_SHOW_TOASTS_DEFVAL) )
+            {
+                Toast.makeText(ScheduleWidget.context, resID, Toast.LENGTH_SHORT).show();
+            }
+        }
 
-        // update layout
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ScheduleWidget.context);
-        appWidgetManager.updateAppWidget(new ComponentName(ScheduleWidget.context.getPackageName(), ScheduleWidget.class.getName()), views);
+        public static void ShowToastMsg(String msg)
+        {
+            if ( sharedPreferences.getBoolean(GlobalVariables.PREFERENCE_SHOW_TOASTS_KEY, GlobalVariables.PREFERENCE_SHOW_TOASTS_DEFVAL) )
+            {
+                Toast.makeText(ScheduleWidget.context, msg, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
-    public static void TougleProgressBar(boolean state)
+    public static void SetTextToTextView(int textViewId, String textToSet)
     {
         RemoteViews views = new RemoteViews(ScheduleWidget.context.getPackageName(), R.layout.schedule_widget);
-        if ( state )
-        {
-            views.setViewVisibility(R.id.widgetProgressBar, View.VISIBLE);
-        }
-        else
-        {
-            views.setViewVisibility(R.id.widgetProgressBar, View.GONE);
-        }
+
+        views.setTextViewText(textViewId, textToSet);
 
         // update layout
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ScheduleWidget.context);
@@ -121,14 +128,21 @@ public class Utility
         return creationDate;
     }
 
-    public static void ShowToastMsg(String msg)
+    public static void TougleProgressBar(boolean state)
     {
-        Toast.makeText(ScheduleWidget.context, msg, Toast.LENGTH_SHORT).show();
-    }
+        RemoteViews views = new RemoteViews(ScheduleWidget.context.getPackageName(), R.layout.schedule_widget);
+        if ( state )
+        {
+            views.setViewVisibility(R.id.widgetProgressBar, View.VISIBLE);
+        }
+        else
+        {
+            views.setViewVisibility(R.id.widgetProgressBar, View.GONE);
+        }
 
-    public static void ShowToastMsg(int resID)
-    {
-        Toast.makeText(ScheduleWidget.context, resID, Toast.LENGTH_SHORT).show();
+        // update layout
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ScheduleWidget.context);
+        appWidgetManager.updateAppWidget(new ComponentName(ScheduleWidget.context.getPackageName(), ScheduleWidget.class.getName()), views);
     }
 
 }
