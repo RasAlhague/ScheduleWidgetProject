@@ -2,11 +2,11 @@
 <resources>
 
     <string name="app_name">ScheduleWidget</string>
-    <string name="textViewLeftText">Text</string>
     <string name="S">S</string>
     <string name="U">U</string>
     <string name="check_wifi_connection">Check Wifi connection to Internet. </string>
     <string name="check_connection">Check connection to Internet. </string>
+    <string name="check_user_data_exist">Check user login/pass existence. </string>
     <string name="getting_data_from_xml">Try to get data from XML. </string>
     <string name="xml_not_found_localy">XML file not found localy. </string>
     <string name="xml_file_available_checking">Checking for XML file exist and actual. </string>
@@ -15,28 +15,24 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="pass">Password</string>
-    <string name="login_example">Login ex: *@*.*</string>
+    <string name="login_example">Login example: *@*.*</string>
     <string name="period_of_schedule_relevance">Schedule will be relevant </string>
     <string name="days">days</string>
     <string name="editTextScheduleRelevanceTime">5</string>
     <string name="xml_parsing_displaying_error">XML-file displaying error. </string>
     <string name="xml_havnt_current_day">XML-file have not current day. </string>
     <string name="xml_available_and_actual_showing">XML-file is available and actual. Showing shedule. </string>
-    
 
     <!-- Preference -->
     <string name="EditTextPreferenceLoginTitle">Login</string>
     <string name="EditTextPreferenceLoginSummary">Login in format *@*.*</string>
-<!--     <string name="PREFERENCE_LOGIN_KEY">login</string> -->
-<!--     <string name="PREFERENCE_PASS_KEY">pass</string> -->
-<!--     <string name="PREFERENCE_RELEVANCE_TIME_KEY">relevance_time</string> -->
-<!--     <string name="PREFERENCE_LOGIN_DEFVAL"></string> -->
-<!--     <string name="PREFERENCE_PASS_DEFVAL"></string> -->
-<!--     <string name="PREFERENCE_RELEVANCE_TIME_DEFVAL">5</string> -->
     <!--  -->
 
     <string name="save">Save</string>
-
     <string name="toasts_messages">Toast messages</string>
-
+    <string name="title_activity_whole_schedule">WholeScheduleActivity</string>
+    <string name="textView_ScheduleDate_DefString">Schedule Date</string>
+    <string name="textView_Schedule_DefString">textView_Schedule</string>
+    <string name="site_unaviable">Web site unaviable, try later. </string>
+    
 </resources>

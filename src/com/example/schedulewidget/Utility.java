@@ -1,5 +1,6 @@
 package com.example.schedulewidget;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.opengl.Visibility;
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -28,7 +32,7 @@ public class Utility
 
         public static void ShowToastMsg(int resID)
         {
-            if ( sharedPreferences.getBoolean(GlobalVariables.PREFERENCE_SHOW_TOASTS_KEY, GlobalVariables.PREFERENCE_SHOW_TOASTS_DEFVAL) )
+            if ( sharedPreferences.getBoolean(SettingActivity.PREFERENCE_SHOW_TOASTS_KEY, SettingActivity.PREFERENCE_SHOW_TOASTS_DEFVAL) )
             {
                 Toast.makeText(ScheduleWidget.context, resID, Toast.LENGTH_SHORT).show();
             }
@@ -36,7 +40,7 @@ public class Utility
 
         public static void ShowToastMsg(String msg)
         {
-            if ( sharedPreferences.getBoolean(GlobalVariables.PREFERENCE_SHOW_TOASTS_KEY, GlobalVariables.PREFERENCE_SHOW_TOASTS_DEFVAL) )
+            if ( sharedPreferences.getBoolean(SettingActivity.PREFERENCE_SHOW_TOASTS_KEY, SettingActivity.PREFERENCE_SHOW_TOASTS_DEFVAL) )
             {
                 Toast.makeText(ScheduleWidget.context, msg, Toast.LENGTH_SHORT).show();
             }
@@ -47,12 +51,26 @@ public class Utility
     {
         RemoteViews views = new RemoteViews(ScheduleWidget.context.getPackageName(), R.layout.schedule_widget);
 
+        views.setViewVisibility(textViewId, View.VISIBLE);
         views.setTextViewText(textViewId, textToSet);
 
         // update layout
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ScheduleWidget.context);
         appWidgetManager.updateAppWidget(new ComponentName(ScheduleWidget.context.getPackageName(), ScheduleWidget.class.getName()), views);
     }
+
+    // public static void SetTextToTextView(int textViewId, int resID)
+    // {
+    // RemoteViews views = new RemoteViews(ScheduleWidget.context.getPackageName(), R.layout.schedule_widget);
+    //
+    // views.setTextViewText(textViewId,
+    // ScheduleWidget.getAppContext().getString(resID)ScheduleWidget.getAppContext().getString(resID)ScheduleWidget.getAppContext().getString(resID)ScheduleWidget.getAppContext().getString(resID)ScheduleWidget.getAppContext().getString(resID)site_unaviablesite_unaviablesite_unaviable);
+    //
+    // // update layout
+    // AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ScheduleWidget.context);
+    // appWidgetManager.updateAppWidget(new ComponentName(ScheduleWidget.context.getPackageName(),
+    // ScheduleWidget.class.getName()), views);
+    // }
 
     public static String GetCurrentDate(String dateFormat)
     {
@@ -145,4 +163,63 @@ public class Utility
         appWidgetManager.updateAppWidget(new ComponentName(ScheduleWidget.context.getPackageName(), ScheduleWidget.class.getName()), views);
     }
 
+    public static boolean CheckHTMLPage(String HTMLPageToCheck)
+    {
+        final String PAGE_TEMPORARILY_UNAVIABLE = "The page you are looking for is temporarily unavailable";
+
+        if ( HTMLPageToCheck != null )
+        {
+            if ( !HTMLPageToCheck.contains(PAGE_TEMPORARILY_UNAVIABLE) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static boolean CheckUserLoginPassExistence()
+    {
+        SharedPreferences sharedPreferences = ScheduleWidget
+                .getAppContext()
+                .getSharedPreferences(GlobalVariables.SHARED_PREFERENCE_NAME, 0);
+
+        String userLogin = sharedPreferences.getString(SettingActivity.PREFERENCE_LOGIN_KEY, SettingActivity.PREFERENCE_LOGIN_DEFVAL);
+        String userPass = sharedPreferences.getString(SettingActivity.PREFERENCE_PASS_KEY, SettingActivity.PREFERENCE_PASS_DEFVAL);
+
+        if( userLogin  == null || userPass == null ||
+                userLogin.equals("") || userPass.equals("") )
+        {
+            return false;
+        }
+        return true;
+    }
+    
+    public static boolean IsMobileConnected()
+    {
+        ConnectivityManager connManager = (ConnectivityManager) ScheduleWidget.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mMobile = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        return mMobile.isConnected();
+    }
+
+    public static boolean IsWifiConnected()
+    {
+        ConnectivityManager connManager = (ConnectivityManager) ScheduleWidget.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        return mWifi.isConnected();
+    }
+    
+    public static boolean FileExistance(String fname)
+    {
+        File file = ScheduleWidget.context.getFileStreamPath(fname);
+        if ( file.exists() )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

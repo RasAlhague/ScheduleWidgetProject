@@ -1,0 +1,27 @@
+html body div#a_main.a_main div#content.content div div div#scrolblock div.blockcol
+
+<div class="block">
+              <div class="blockhead">              24.09.2013              </div>
+
+
+          <div class="blockbody" style="background:#e2ffe2">
+                          <font color="#004000">ОІБД</font> [<strong><font color=#3ea73e>Пз</font></strong>]<br> ауд.<font color="navy">418</font><br>Наконечний В...&nbsp;                          <div class="hint1"><p><font color="#004000">Основи інформаційної безпеки держави</font> [<strong><font color="#0d91a5">Пз</font></strong>]<br> ауд.<font color="navy">418</font><br>Наконечний В.С.<br>Добавлено: 05.09.2013, 10:50:50</p></div>                      </div>
+                       <div class="blockbody" style="background:">
+                          &nbsp;                                                </div>
+                                        </div>
+
+
+
+DOTALL
+
+//date + 1st lesson
+<div class="blockhead">.*?(\d\d\.\d\d\.\d\d\d\d).*?
+
+<div class="(?:blockbody|blockbody blockchangeday)" style="background:#.*?">.*?<font.*?>(.*?)<.*?<strong><font.*?>(.*?)<.*?ауд.*?>(.*?)<.*?</font><br.*?>(.*?)<br.*?Д
+
+<div class=\"(?:blockbody|blockbody blockchangeday)\" style=\"background:#.*?\">.*?<font.*?>(.*?)<.*?<strong><font.*?>(.*?)<.*?ауд.*?>(.*?)<.*?</font><br.*?>(.*?)<br.*?Д
+
+//block
+(<div class="block">.*?(\d\d\.\d\d\.\d\d\d\d).*?</div.*?<!-- block -->)
+
+(<div class=\"block\">.*?(\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d).*?</div.*?<!-- block -->)

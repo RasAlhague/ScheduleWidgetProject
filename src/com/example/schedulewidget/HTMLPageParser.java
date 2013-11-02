@@ -13,7 +13,7 @@ import android.util.Xml;
 public class HTMLPageParser
 {
     private final String BLOCK_FINDER_PATTERN = "(<div class=\"block\">.*?(\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d).*?</div.*?<!-- block -->)";
-    private final String LESSON_DATA_FINDER_PATTERN = "<div class=\"blockbody\".*?<font.*?>(.*?)<.*?<strong><font.*?>(.*?)<.*?ауд.*?>(.*?)<.*?</font><br.*?>(.*?)<br.*?Д";
+    private final String LESSON_DATA_FINDER_PATTERN = "<div class=\"(?:blockbody|blockbody blockchangeday)\" style=\"background:#.*?\">.*?<font.*?>(.*?)<.*?<strong><font.*?>(.*?)<.*?ауд.*?>(.*?)<.*?</font><br.*?>(.*?)<br.*?Д";
     private final String EMPTY_NAMESPASE = "";
     private final String TAG_SCHEDULE = "schedule";
     private final String TAG_DAY = "day";
